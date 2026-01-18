@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Nunito', 'Comic Sans MS', sans-serif;
+  }
+
+  body {
+    @apply bg-hk-pink-50 text-gray-800;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-hk-pink-400 hover:bg-hk-pink-500 text-white font-semibold py-2 px-6 rounded-hk-lg transition-all duration-200 shadow-hk hover:shadow-hk-lg transform hover:-translate-y-0.5;
+  }
+
+  .btn-secondary {
+    @apply bg-white hover:bg-hk-pink-50 text-hk-pink-500 font-semibold py-2 px-6 rounded-hk-lg border-2 border-hk-pink-300 transition-all duration-200;
+  }
+
+  .btn-cute {
+    @apply bg-gradient-to-r from-hk-pink-300 to-hk-purple-200 hover:from-hk-pink-400 hover:to-hk-purple-300 text-white font-bold py-3 px-8 rounded-hk-xl transition-all duration-300 shadow-hk hover:shadow-hk-lg transform hover:-translate-y-1;
+  }
+
+  .card {
+    @apply bg-white rounded-hk-xl p-6 shadow-hk hover:shadow-hk-lg transition-all duration-300;
+  }
+
+  .card-cute {
+    @apply bg-white rounded-hk-xl p-6 shadow-hk border-2 border-hk-pink-100 hover:border-hk-pink-300 transition-all duration-300;
+  }
+
+  .input-cute {
+    @apply w-full px-4 py-3 rounded-hk-lg border-2 border-hk-pink-200 focus:border-hk-pink-400 focus:outline-none focus:ring-2 focus:ring-hk-pink-200 transition-all duration-200 bg-white;
+  }
+
+  .select-cute {
+    @apply w-full px-4 py-3 rounded-hk-lg border-2 border-hk-pink-200 focus:border-hk-pink-400 focus:outline-none focus:ring-2 focus:ring-hk-pink-200 transition-all duration-200 bg-white appearance-none cursor-pointer;
+  }
+
+  .badge-common {
+    @apply bg-gray-200 text-gray-700 text-xs font-semibold px-2 py-1 rounded-full;
+  }
+
+  .badge-uncommon {
+    @apply bg-hk-blue-200 text-hk-blue-300 text-xs font-semibold px-2 py-1 rounded-full;
+  }
+
+  .badge-rare {
+    @apply bg-hk-purple-200 text-hk-purple-300 text-xs font-semibold px-2 py-1 rounded-full;
+  }
+
+  .badge-event {
+    @apply bg-hk-yellow-200 text-yellow-700 text-xs font-semibold px-2 py-1 rounded-full;
+  }
+
+  .nav-link {
+    @apply text-hk-pink-500 hover:text-hk-pink-600 font-semibold transition-colors duration-200 relative;
+  }
+
+  .nav-link-active {
+    @apply text-hk-pink-600 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-hk-pink-400 after:rounded-full;
+  }
+}
+
+@layer utilities {
+  .text-gradient-pink {
+    @apply bg-gradient-to-r from-hk-pink-400 to-hk-purple-300 bg-clip-text text-transparent;
+  }
+
+  .bg-pattern-hearts {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 15 C25 5, 10 5, 10 20 C10 35, 30 45, 30 45 C30 45, 50 35, 50 20 C50 5, 35 5, 30 15' fill='%23FFE8ED' /%3E%3C/svg%3E");
+    background-size: 60px 60px;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce 2s ease-in-out infinite;
+  }
+}
+
+/* Amplify UI Overrides */
+[data-amplify-authenticator] {
+  --amplify-colors-brand-primary-10: #FFF5F7;
+  --amplify-colors-brand-primary-20: #FFE8ED;
+  --amplify-colors-brand-primary-40: #FFB6C1;
+  --amplify-colors-brand-primary-60: #FF8FA3;
+  --amplify-colors-brand-primary-80: #FF6B8A;
+  --amplify-colors-brand-primary-90: #FF4D6D;
+  --amplify-colors-brand-primary-100: #E4002B;
+  --amplify-components-button-primary-background-color: #FF6B8A;
+  --amplify-components-button-primary-hover-background-color: #FF4D6D;
+  --amplify-components-fieldcontrol-border-color: #FFB6C1;
+  --amplify-components-fieldcontrol-focus-border-color: #FF6B8A;
+  --amplify-radii-small: 1rem;
+  --amplify-radii-medium: 1.5rem;
+  --amplify-radii-large: 2rem;
+  --amplify-fonts-default-static: 'Nunito', sans-serif;
+}
