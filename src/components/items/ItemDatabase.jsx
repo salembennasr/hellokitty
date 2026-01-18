@@ -9,6 +9,7 @@ function ItemDatabase() {
   const [categoryFilter, setCategoryFilter] = useState('ALL')
   const [rarityFilter, setRarityFilter] = useState('ALL')
   const [selectedItem, setSelectedItem] = useState(null)
+  const [modalImageError, setModalImageError] = useState(false)
 
   const filteredItems = useMemo(() => {
     return seedItems.filter(item => {
@@ -103,15 +104,24 @@ function ItemDatabase() {
       {/* Item Detail Modal */}
       <Modal
         isOpen={!!selectedItem}
-        onClose={() => setSelectedItem(null)}
+        onClose={() => { setSelectedItem(null); setModalImageError(false); }}
         title={selectedItem?.nameDE || selectedItem?.name || 'Item Details'}
         size="md"
       >
         {selectedItem && (
           <div className="space-y-6">
             {/* Image */}
-            <div className="aspect-square bg-gradient-to-br from-hk-pink-50 to-hk-purple-100 rounded-hk-xl flex items-center justify-center">
-              <span className="text-8xl">{categoryIcons[selectedItem.category]}</span>
+            <div className="aspect-square bg-gradient-to-br from-hk-pink-50 to-hk-purple-100 rounded-hk-xl flex items-center justify-center overflow-hidden">
+              {selectedItem.imageUrl && !modalImageError ? (
+                <img
+                  src={selectedItem.imageUrl}
+                  alt={selectedItem.nameDE || selectedItem.name}
+                  className="w-full h-full object-contain p-4"
+                  onError={() => setModalImageError(true)}
+                />
+              ) : (
+                <span className="text-8xl">{categoryIcons[selectedItem.category]}</span>
+              )}
             </div>
 
             {/* Info */}

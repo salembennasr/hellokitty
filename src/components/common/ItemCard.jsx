@@ -1,4 +1,8 @@
+import { useState } from 'react'
+
 function ItemCard({ item, onClick, selected = false, showQuantity = false, quantity = 1 }) {
+  const [imageError, setImageError] = useState(false)
+
   const rarityStyles = {
     COMMON: 'badge-common',
     UNCOMMON: 'badge-uncommon',
@@ -26,13 +30,23 @@ function ItemCard({ item, onClick, selected = false, showQuantity = false, quant
     <div
       onClick={onClick}
       className={`
-        card-cute cursor-pointer transform transition-all duration-200 hover:scale-105
+        card-cute cursor-pointer transform transition-all duration-200 hover:scale-105 relative
         ${selected ? 'ring-2 ring-hk-pink-400 border-hk-pink-400' : ''}
       `}
     >
-      {/* Image placeholder */}
-      <div className="aspect-square bg-gradient-to-br from-hk-pink-50 to-hk-purple-100 rounded-hk-lg mb-3 flex items-center justify-center">
-        <span className="text-4xl">{categoryIcons[item.category] || '📦'}</span>
+      {/* Image */}
+      <div className="aspect-square bg-gradient-to-br from-hk-pink-50 to-hk-purple-100 rounded-hk-lg mb-3 flex items-center justify-center overflow-hidden">
+        {item.imageUrl && !imageError ? (
+          <img
+            src={item.imageUrl}
+            alt={item.nameDE || item.name}
+            className="w-full h-full object-contain p-2"
+            onError={() => setImageError(true)}
+            loading="lazy"
+          />
+        ) : (
+          <span className="text-4xl">{categoryIcons[item.category] || '📦'}</span>
+        )}
       </div>
 
       {/* Info */}

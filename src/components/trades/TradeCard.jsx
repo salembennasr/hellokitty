@@ -1,5 +1,44 @@
 import { Link } from 'react-router-dom'
 
+// Kleine Item-Vorschau Komponente
+function ItemPreview({ item, quantity }) {
+  const categoryIcons = {
+    FURNITURE: '🪑',
+    MATERIAL: '✨',
+    CLOTHING: '👗',
+    FOOD: '🍰',
+    EVENT: '🎃',
+    RECIPE: '📜',
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <div className="w-8 h-8 bg-white rounded-lg flex-shrink-0 overflow-hidden flex items-center justify-center">
+        {item.imageUrl ? (
+          <img
+            src={item.imageUrl}
+            alt={item.nameDE || item.name}
+            className="w-full h-full object-contain"
+            onError={(e) => {
+              e.target.style.display = 'none'
+              e.target.nextSibling.style.display = 'flex'
+            }}
+          />
+        ) : null}
+        <span className={`text-sm ${item.imageUrl ? 'hidden' : 'flex'}`}>
+          {categoryIcons[item.category] || '📦'}
+        </span>
+      </div>
+      <span className="truncate text-gray-700 text-sm flex-1">
+        {item.nameDE || item.name}
+      </span>
+      {quantity > 1 && (
+        <span className="text-xs font-medium">x{quantity}</span>
+      )}
+    </div>
+  )
+}
+
 function TradeCard({ trade }) {
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -8,15 +47,6 @@ function TradeCard({ trade }) {
       month: '2-digit',
       year: 'numeric'
     })
-  }
-
-  const categoryIcons = {
-    FURNITURE: '🪑',
-    MATERIAL: '✨',
-    CLOTHING: '👗',
-    FOOD: '🍰',
-    EVENT: '🎃',
-    RECIPE: '📜',
   }
 
   return (
@@ -54,17 +84,13 @@ function TradeCard({ trade }) {
             <p className="text-xs font-semibold text-hk-pink-500 mb-2 flex items-center">
               <span className="mr-1">📦</span> Biete
             </p>
-            <div className="space-y-1">
+            <div className="space-y-2">
               {trade.offeringItems.slice(0, 3).map((tradeItem, idx) => (
-                <div key={idx} className="flex items-center text-sm">
-                  <span className="mr-1">{categoryIcons[tradeItem.item.category]}</span>
-                  <span className="truncate text-gray-700">
-                    {tradeItem.item.nameDE || tradeItem.item.name}
-                  </span>
-                  {tradeItem.quantity > 1 && (
-                    <span className="ml-1 text-hk-pink-400 font-medium">x{tradeItem.quantity}</span>
-                  )}
-                </div>
+                <ItemPreview
+                  key={idx}
+                  item={tradeItem.item}
+                  quantity={tradeItem.quantity}
+                />
               ))}
               {trade.offeringItems.length > 3 && (
                 <p className="text-xs text-gray-400">+{trade.offeringItems.length - 3} mehr</p>
@@ -77,17 +103,13 @@ function TradeCard({ trade }) {
             <p className="text-xs font-semibold text-hk-blue-300 mb-2 flex items-center">
               <span className="mr-1">🔍</span> Suche
             </p>
-            <div className="space-y-1">
+            <div className="space-y-2">
               {trade.seekingItems.slice(0, 3).map((tradeItem, idx) => (
-                <div key={idx} className="flex items-center text-sm">
-                  <span className="mr-1">{categoryIcons[tradeItem.item.category]}</span>
-                  <span className="truncate text-gray-700">
-                    {tradeItem.item.nameDE || tradeItem.item.name}
-                  </span>
-                  {tradeItem.quantity > 1 && (
-                    <span className="ml-1 text-hk-blue-300 font-medium">x{tradeItem.quantity}</span>
-                  )}
-                </div>
+                <ItemPreview
+                  key={idx}
+                  item={tradeItem.item}
+                  quantity={tradeItem.quantity}
+                />
               ))}
               {trade.seekingItems.length > 3 && (
                 <p className="text-xs text-gray-400">+{trade.seekingItems.length - 3} mehr</p>

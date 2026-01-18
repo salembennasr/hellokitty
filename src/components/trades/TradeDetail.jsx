@@ -2,6 +2,66 @@ import { useState } from 'react'
 import Button from '../common/Button'
 import Modal from '../common/Modal'
 
+// Item-Komponente mit Bild
+function TradeItemRow({ tradeItem, variant = 'pink' }) {
+  const [imageError, setImageError] = useState(false)
+  const item = tradeItem.item
+
+  const categoryIcons = {
+    FURNITURE: '🪑',
+    MATERIAL: '✨',
+    CLOTHING: '👗',
+    FOOD: '🍰',
+    EVENT: '🎃',
+    RECIPE: '📜',
+  }
+
+  const rarityStyles = {
+    COMMON: 'badge-common',
+    UNCOMMON: 'badge-uncommon',
+    RARE: 'badge-rare',
+    EVENT: 'badge-event',
+  }
+
+  const bgColor = variant === 'pink' ? 'bg-hk-pink-50' : 'bg-hk-blue-100'
+  const quantityColor = variant === 'pink' ? 'text-hk-pink-500' : 'text-hk-blue-300'
+
+  return (
+    <div className={`flex items-center p-3 ${bgColor} rounded-hk-lg`}>
+      <div className="w-14 h-14 bg-white rounded-hk flex items-center justify-center mr-3 overflow-hidden flex-shrink-0">
+        {item.imageUrl && !imageError ? (
+          <img
+            src={item.imageUrl}
+            alt={item.nameDE || item.name}
+            className="w-full h-full object-contain p-1"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <span className="text-2xl">{categoryIcons[item.category]}</span>
+        )}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="font-semibold text-gray-800 truncate">
+          {item.nameDE || item.name}
+        </p>
+        <div className="flex items-center space-x-2 mt-1">
+          <span className={rarityStyles[item.rarity]}>
+            {item.rarity}
+          </span>
+          <span className="text-xs text-gray-400 capitalize truncate">
+            {item.subcategory?.replace('-', ' ')}
+          </span>
+        </div>
+      </div>
+      {tradeItem.quantity > 1 && (
+        <span className={`${quantityColor} font-bold text-lg ml-2`}>
+          x{tradeItem.quantity}
+        </span>
+      )}
+    </div>
+  )
+}
+
 function TradeDetail({ trade, currentUserId }) {
   const [showInterestModal, setShowInterestModal] = useState(false)
   const [interestMessage, setInterestMessage] = useState('')
@@ -18,22 +78,6 @@ function TradeDetail({ trade, currentUserId }) {
       hour: '2-digit',
       minute: '2-digit'
     })
-  }
-
-  const categoryIcons = {
-    FURNITURE: '🪑',
-    MATERIAL: '✨',
-    CLOTHING: '👗',
-    FOOD: '🍰',
-    EVENT: '🎃',
-    RECIPE: '📜',
-  }
-
-  const rarityStyles = {
-    COMMON: 'badge-common',
-    UNCOMMON: 'badge-uncommon',
-    RARE: 'badge-rare',
-    EVENT: 'badge-event',
   }
 
   const handleSubmitInterest = () => {
@@ -101,32 +145,7 @@ function TradeDetail({ trade, currentUserId }) {
           </h3>
           <div className="space-y-3">
             {trade.offeringItems.map((tradeItem, idx) => (
-              <div
-                key={idx}
-                className="flex items-center p-3 bg-hk-pink-50 rounded-hk-lg"
-              >
-                <div className="w-12 h-12 bg-white rounded-hk flex items-center justify-center mr-3">
-                  <span className="text-2xl">{categoryIcons[tradeItem.item.category]}</span>
-                </div>
-                <div className="flex-1">
-                  <p className="font-semibold text-gray-800">
-                    {tradeItem.item.nameDE || tradeItem.item.name}
-                  </p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className={rarityStyles[tradeItem.item.rarity]}>
-                      {tradeItem.item.rarity}
-                    </span>
-                    <span className="text-xs text-gray-400 capitalize">
-                      {tradeItem.item.subcategory?.replace('-', ' ')}
-                    </span>
-                  </div>
-                </div>
-                {tradeItem.quantity > 1 && (
-                  <span className="text-hk-pink-500 font-bold text-lg">
-                    x{tradeItem.quantity}
-                  </span>
-                )}
-              </div>
+              <TradeItemRow key={idx} tradeItem={tradeItem} variant="pink" />
             ))}
           </div>
         </div>
@@ -138,32 +157,7 @@ function TradeDetail({ trade, currentUserId }) {
           </h3>
           <div className="space-y-3">
             {trade.seekingItems.map((tradeItem, idx) => (
-              <div
-                key={idx}
-                className="flex items-center p-3 bg-hk-blue-100 rounded-hk-lg"
-              >
-                <div className="w-12 h-12 bg-white rounded-hk flex items-center justify-center mr-3">
-                  <span className="text-2xl">{categoryIcons[tradeItem.item.category]}</span>
-                </div>
-                <div className="flex-1">
-                  <p className="font-semibold text-gray-800">
-                    {tradeItem.item.nameDE || tradeItem.item.name}
-                  </p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className={rarityStyles[tradeItem.item.rarity]}>
-                      {tradeItem.item.rarity}
-                    </span>
-                    <span className="text-xs text-gray-400 capitalize">
-                      {tradeItem.item.subcategory?.replace('-', ' ')}
-                    </span>
-                  </div>
-                </div>
-                {tradeItem.quantity > 1 && (
-                  <span className="text-hk-blue-300 font-bold text-lg">
-                    x{tradeItem.quantity}
-                  </span>
-                )}
-              </div>
+              <TradeItemRow key={idx} tradeItem={tradeItem} variant="blue" />
             ))}
           </div>
         </div>
