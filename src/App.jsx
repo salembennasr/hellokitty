@@ -18,7 +18,7 @@ export const AppContext = createContext(null)
 
 function App() {
   return (
-    <Authenticator>
+    <Authenticator hideSignUp>
       {({ signOut, user }) => (
         <AppContext.Provider value={{ user, signOut }}>
           <div className="min-h-screen flex flex-col bg-hk-pink-50">
