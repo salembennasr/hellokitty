@@ -1,11 +1,9 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { AppContext } from '../../App'
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const location = useLocation()
-  const { isAuthenticated, devMode } = useContext(AppContext)
 
   const navLinks = [
     { path: '/', label: 'Home' },
@@ -44,20 +42,9 @@ function Header() {
 
           {/* Auth Button */}
           <div className="hidden md:flex items-center space-x-4">
-            {devMode && (
-              <span className="text-xs text-hk-pink-300 bg-hk-pink-50 px-2 py-1 rounded-full">
-                Dev Mode
-              </span>
-            )}
-            {isAuthenticated ? (
-              <Link to="/profile" className="btn-primary text-sm">
-                Mein Profil
-              </Link>
-            ) : (
-              <Link to="/profile" className="btn-primary text-sm">
-                Anmelden
-              </Link>
-            )}
+            <Link to="/profile" className="btn-primary text-sm">
+              Mein Profil
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -98,7 +85,7 @@ function Header() {
                 className="btn-primary text-center mt-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {isAuthenticated ? 'Mein Profil' : 'Anmelden'}
+                Mein Profil
               </Link>
             </nav>
           </div>
